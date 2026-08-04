@@ -70,7 +70,7 @@ export function selectClient(requestedClient, detectedClients) {
   };
 }
 
-export async function installMcp({
+export function installMcp({
   requestedClient = null,
   runner = runCommand,
 } = {}) {

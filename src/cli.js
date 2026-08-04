@@ -15,13 +15,13 @@ export function parseArgs(argv) {
     return { command: "install", client: null };
   }
 
-  if (argv.length === 1 && ["--help", "-h", "help"].includes(argv[0])) {
+  if (argv.length === 1 && ["--help", "-h"].includes(argv[0])) {
     return { command: "help", client: null };
   }
 
   if (
     argv.length === 1 &&
-    ["--version", "-v", "version"].includes(argv[0])
+    ["--version", "-v"].includes(argv[0])
   ) {
     return { command: "version", client: null };
   }
@@ -48,7 +48,6 @@ export function parseArgs(argv) {
 export async function runCli(
   argv,
   io = { out: console.log, error: console.error },
-  dependencies = {},
 ) {
   const parsed = parseArgs(argv);
 
@@ -67,8 +66,7 @@ export async function runCli(
     return 0;
   }
 
-  const installMcp =
-    dependencies.installMcp ?? (await import("./install.js")).installMcp;
+  const { installMcp } = await import("./install.js");
   const result = await installMcp({ requestedClient: parsed.client });
   const write = result.ok ? io.out : io.error;
   write(result.message);
