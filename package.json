@@ -1,0 +1,27 @@
+{
+  "name": "@nerdboard/meta-ads-mcp",
+  "version": "0.1.0",
+  "description": "너드보드 Meta 광고 원격 MCP 설치 도구",
+  "type": "module",
+  "bin": {
+    "nerdboard-meta-ads-mcp": "./bin/nerdboard-meta-ads-mcp.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "check": "node --check src/cli.js && node --check src/install.js && node --check bin/nerdboard-meta-ads-mcp.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "license": "MIT"
+}
