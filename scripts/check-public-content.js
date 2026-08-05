@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const ALLOWED_FILES = new Set([
+  ".github/assets/demo.gif",
   ".github/workflows/ci.yml",
   ".gitignore",
   "LICENSE",
@@ -42,6 +43,10 @@ export function inspectPublicFiles(files) {
       return [{ file, reason: "허용되지 않은 파일 경로" }];
     }
 
+    if (content === null) {
+      return [];
+    }
+
     if (LEGAL_TERMS.some((pattern) => pattern.test(content))) {
       return [{ file, reason: "법적 금칙어" }];
     }
@@ -62,11 +67,13 @@ export function checkPublicContent(rootDirectory) {
     .split("\0")
     .filter(Boolean);
 
-  const files = trackedFiles.flatMap((file) => {
+  // 바이너리 파일은 내용 검사만 건너뛰고 경로 검사는 그대로 받는다.
+  const files = trackedFiles.map((file) => {
     const buffer = readFileSync(join(rootDirectory, file));
-    return buffer.includes(0)
-      ? []
-      : [{ file, content: buffer.toString("utf8") }];
+    return {
+      file,
+      content: buffer.includes(0) ? null : buffer.toString("utf8"),
+    };
   });
 
   return inspectPublicFiles(files);

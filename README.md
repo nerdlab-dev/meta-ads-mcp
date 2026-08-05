@@ -2,6 +2,8 @@
 
 Codex CLI와 Claude Code에 너드보드 Meta Ads MCP를 연결하는 공개 설치 도구예요.
 
+![데모: 소재 업로드부터 Meta 광고 자동 세팅까지](.github/assets/demo.gif)
+
 이 저장소의 CLI는 MIT 오픈소스예요. 실제 광고 조회·생성·수정은 너드보드의 관리형 원격 MCP 서버에서 실행돼요. 사용하려면 너드보드 계정, 활성 구독, 연결된 Meta 광고 계정이 필요해요.
 
 ## 빠른 설치

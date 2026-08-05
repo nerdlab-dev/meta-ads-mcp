@@ -23,6 +23,17 @@ test("허용 목록 밖의 파일 경로를 공개 파일로 허용하지 않는
   );
 });
 
+test("바이너리 파일도 경로 허용 목록 검사를 받는다", () => {
+  assert.deepEqual(
+    inspectPublicFiles([{ file: "notes/secret.bin", content: null }]),
+    [{ file: "notes/secret.bin", reason: "허용되지 않은 파일 경로" }],
+  );
+  assert.deepEqual(
+    inspectPublicFiles([{ file: ".github/assets/demo.gif", content: null }]),
+    [],
+  );
+});
+
 test("법적 금칙어의 대소문자와 구분자 변형을 모두 차단한다", () => {
   const english = String.fromCodePoint(112, 105, 112, 101, 98, 111, 97, 114, 100);
   const korean = String.fromCodePoint(54028, 51060, 54532, 48372, 46300);
