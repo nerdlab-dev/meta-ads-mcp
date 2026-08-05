@@ -40,7 +40,7 @@ export function inspectPublicFiles(files) {
       !ALLOWED_FILES.has(file) &&
       !ALLOWED_DIRECTORIES.some((directory) => file.startsWith(directory))
     ) {
-      return [{ file, reason: "허용되지 않은 파일 경로" }];
+      return [{ file, reason: "Disallowed file path" }];
     }
 
     if (content === null) {
@@ -48,11 +48,11 @@ export function inspectPublicFiles(files) {
     }
 
     if (LEGAL_TERMS.some((pattern) => pattern.test(content))) {
-      return [{ file, reason: "법적 금칙어" }];
+      return [{ file, reason: "Prohibited legal term" }];
     }
 
     if (CREDENTIAL_PATTERNS.some((pattern) => pattern.test(content))) {
-      return [{ file, reason: "자격증명 의심" }];
+      return [{ file, reason: "Suspected credential" }];
     }
 
     return [];
@@ -67,7 +67,7 @@ export function checkPublicContent(rootDirectory) {
     .split("\0")
     .filter(Boolean);
 
-  // 바이너리 파일은 내용 검사만 건너뛰고 경로 검사는 그대로 받는다.
+  // Binary files skip only the content checks; the path check still applies.
   const files = trackedFiles.map((file) => {
     const buffer = readFileSync(join(rootDirectory, file));
     return {

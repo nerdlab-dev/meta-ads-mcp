@@ -29,7 +29,7 @@ const COMMANDS = {
       SERVER_NAME,
       REMOTE_URL,
     ],
-    login: "Claude Code에서 /mcp를 실행해 로그인해주세요.",
+    login: "Run /mcp inside Claude Code and sign in with your browser.",
   },
 };
 
@@ -56,7 +56,7 @@ export function selectClient(requestedClient, detectedClients) {
     }
 
     return {
-      error: `${requestedClient} CLI를 찾을 수 없어요. 설치 상태를 확인해주세요.`,
+      error: `Could not find the ${requestedClient} CLI. Please check that it is installed.`,
     };
   }
 
@@ -67,13 +67,13 @@ export function selectClient(requestedClient, detectedClients) {
   if (detectedClients.length === 0) {
     return {
       error:
-        "Codex CLI와 Claude Code를 찾을 수 없어요. README의 수동 설치 방법을 이용해주세요.",
+        "Could not find Codex CLI or Claude Code. Please use the manual install steps in the README.",
     };
   }
 
   return {
     error:
-      "Codex CLI와 Claude Code가 모두 설치되어 있어요. --client codex 또는 --client claude를 지정해주세요.",
+      "Both Codex CLI and Claude Code are installed. Please pass --client codex or --client claude.",
   };
 }
 
@@ -94,28 +94,28 @@ export function installMcp({
     if (current.stdout.includes(REMOTE_URL)) {
       return {
         ok: true,
-        message: `${client}에 너드보드 Meta Ads MCP가 이미 연결되어 있어요.\n${commands.login}`,
+        message: `Nerdboard Meta Ads MCP is already connected to ${client}.\n${commands.login}`,
       };
     }
 
     return {
       ok: false,
-      message: `${SERVER_NAME} 이름에 다른 URL이 등록되어 있어요. 기존 설정은 변경하지 않았어요.`,
+      message: `The name ${SERVER_NAME} is registered with a different URL. Your existing configuration was left unchanged.`,
     };
   }
 
   const added = runner(client, commands.add);
   if (added.status !== 0) {
-    const exitCode = added.status ?? "알 수 없음";
-    const detail = added.stderr.trim() || "오류 메시지가 없어요.";
+    const exitCode = added.status ?? "unknown";
+    const detail = added.stderr.trim() || "No error message was provided.";
     return {
       ok: false,
-      message: `MCP 추가 명령이 실패했어요. 종료 코드 ${exitCode}: ${detail}`,
+      message: `The MCP add command failed. Exit code ${exitCode}: ${detail}`,
     };
   }
 
   return {
     ok: true,
-    message: `너드보드 Meta Ads MCP를 ${client}에 연결했어요.\n${commands.login}`,
+    message: `Connected Nerdboard Meta Ads MCP to ${client}.\n${commands.login}`,
   };
 }

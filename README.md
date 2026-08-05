@@ -1,49 +1,92 @@
+<div align="center">
+
 # Nerdboard Meta Ads MCP
 
-Codex CLI와 Claude Code에 너드보드 Meta Ads MCP를 연결하는 공개 설치 도구예요.
+**Launch and manage Meta ads from Claude Code and Codex CLI — just by asking.**
 
-![데모: 소재 업로드부터 Meta 광고 자동 세팅까지](.github/assets/demo.gif)
+[![npm version](https://img.shields.io/npm/v/%40nerdlab-dev%2Fmeta-ads-mcp?logo=npm&color=cb3837)](https://www.npmjs.com/package/@nerdlab-dev/meta-ads-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/%40nerdlab-dev%2Fmeta-ads-mcp)](https://www.npmjs.com/package/@nerdlab-dev/meta-ads-mcp)
+[![CI](https://github.com/nerdlab-dev/meta-ads-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/nerdlab-dev/meta-ads-mcp/actions/workflows/ci.yml)
+[![Node.js ≥ 20](https://img.shields.io/node/v/%40nerdlab-dev%2Fmeta-ads-mcp?logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-이 저장소의 CLI는 MIT 오픈소스예요. 실제 광고 조회·생성·수정은 너드보드의 관리형 원격 MCP 서버에서 실행돼요. 사용하려면 너드보드 계정, 활성 구독, 연결된 Meta 광고 계정이 필요해요.
+![Demo — upload a creative, ask for an ad, see it live in Meta Ads Manager](.github/assets/demo.gif)
 
-## 빠른 설치
+</div>
 
-Node.js 20 이상이 필요해요.
+Setting up a Meta campaign means clicking through Ads Manager screens for every campaign, ad set, and ad. With Nerdboard's hosted remote MCP, your AI coding agent does it for you — **no Meta developer token, no self-hosting, no API keys on your machine**.
+
+This repository is the thin MIT-licensed installer. All ad features run on Nerdboard's managed server.
+
+## What you can do
+
+- **Launch campaigns** — "Launch a Meta ad with my new creative, ₩30,000/day, retargeting." One ask creates the campaign, ad set, and ad.
+- **Analyze performance** — spend, ROAS, purchases, demographics, and placement breakdowns through natural conversation.
+- **Manage creatives** — upload images and videos, then reuse them across ads.
+- **Find your audience** — search interests, behaviors, and geo targeting without leaving the terminal.
+- **Stay in control** — pause, resume, and tune budgets with plain-language requests.
+
+## Quick start
+
+Requires **Node.js 20+** and **Claude Code** or **Codex CLI**. Setup takes about 2 minutes.
 
 ```bash
 npx -y @nerdlab-dev/meta-ads-mcp@latest install
 ```
 
-Codex CLI와 Claude Code가 모두 설치되어 있으면 대상을 지정해요.
+If both clients are installed, pick one:
 
 ```bash
-npx -y @nerdlab-dev/meta-ads-mcp@latest install --client codex
 npx -y @nerdlab-dev/meta-ads-mcp@latest install --client claude
+npx -y @nerdlab-dev/meta-ads-mcp@latest install --client codex
 ```
 
-설치기는 각 제품의 공식 MCP 명령을 사용해요. 제품 설정 파일을 직접 수정하지 않아요.
+Then sign in:
 
-## 로그인
+- **Claude Code** — run `/mcp` and complete the login in your browser.
+- **Codex CLI** — run:
 
-Codex CLI에서는 설치 후 다음 명령을 실행해요.
+  ```bash
+  codex mcp login \
+    --scopes ad-channel:meta:read,ad-channel:meta:campaign:read,ad-channel:meta:creative:read,ad-channel:meta:campaign:write,ad-channel:meta:creative:write \
+    nerdboard-meta-ads
+  ```
 
-```bash
-codex mcp login \
-  --scopes ad-channel:meta:read,ad-channel:meta:campaign:read,ad-channel:meta:creative:read,ad-channel:meta:campaign:write,ad-channel:meta:creative:write \
-  nerdboard-meta-ads
+During login you choose your Nerdboard workspace and permissions. If you still need a subscription or a connected Meta ad account, Nerdboard walks you through it on screen.
+
+That's it — ask your agent for an ad.
+
+## How it works
+
+```mermaid
+flowchart LR
+    installer["This CLI<br/>(thin installer, MIT)"] -. registers .-> client
+    client["Claude Code / Codex CLI"] -- "MCP over HTTPS + OAuth" --> server["Nerdboard remote MCP"]
+    server -- "Meta Marketing API" --> meta["Meta Ads"]
 ```
 
-Claude Code에서는 `/mcp`를 실행한 뒤 브라우저에서 로그인해요.
+The installer registers `nerdboard-meta-ads` in your MCP client using each product's official `mcp add` command. Every ad operation runs on Nerdboard's managed server, which talks to the Meta Marketing API on your behalf. Using it requires a Nerdboard account, an active subscription, and a connected Meta ad account.
 
-로그인 과정에서 너드보드 테넌트와 권한을 선택해요. 구독이나 Meta 계정 연결이 필요하면 너드보드 화면에서 이어서 설정해요.
+## Security & transparency
 
-## 수동 설치
+What the installer does:
 
-Codex CLI:
+- Detects whether Codex CLI and Claude Code are installed.
+- Checks whether a `nerdboard-meta-ads` connection already exists.
+- Registers the connection with the product's official `mcp add` command.
+- Leaves everything untouched when the same connection already exists.
+- Refuses to overwrite when the same name points to a different URL.
 
-```bash
-codex mcp add nerdboard-meta-ads --url https://nerdboard.kr/mcp
-```
+What the installer never does:
+
+- Read or store Meta access tokens.
+- Proxy or process ad requests locally.
+- Include Nerdboard server code or ad-creation logic.
+- Delete or overwrite your existing MCP configuration.
+
+Every push and pull request runs an automated public-content check covering file allowlists, credential patterns, and prohibited terms.
+
+## Manual install
 
 Claude Code:
 
@@ -51,35 +94,31 @@ Claude Code:
 claude mcp add --transport http --scope user nerdboard-meta-ads https://nerdboard.kr/mcp
 ```
 
-Cursor 등 다른 원격 MCP 클라이언트에는 다음 URL을 등록해요.
+Codex CLI:
+
+```bash
+codex mcp add nerdboard-meta-ads --url https://nerdboard.kr/mcp
+```
+
+Any other remote-MCP-capable client (Cursor, etc.) can register the URL directly:
 
 ```text
 https://nerdboard.kr/mcp
 ```
 
-## 설치기가 하는 일
-
-- Codex CLI와 Claude Code 설치 여부를 확인해요.
-- `nerdboard-meta-ads` 연결이 이미 있는지 확인해요.
-- 연결이 없으면 제품의 공식 `mcp add` 명령을 실행해요.
-- 같은 연결이 이미 있으면 아무것도 변경하지 않아요.
-- 같은 이름에 다른 URL이 있으면 기존 설정을 보호하고 종료해요.
-
-## 설치기가 하지 않는 일
-
-- Meta 액세스 토큰을 읽거나 저장하지 않아요.
-- 광고 요청을 로컬에서 처리하거나 중계하지 않아요.
-- 너드보드 서버 코드와 광고 생성 로직을 포함하지 않아요.
-- 기존 MCP 설정을 삭제하거나 덮어쓰지 않아요.
-
-## 로컬 개발
+## Development
 
 ```bash
 npm test
 npm run check
+npm run check:public
 npm pack --dry-run
 ```
 
-## 라이선스
+## License
 
-이 저장소의 CLI 소스는 [MIT 라이선스](./LICENSE)를 따라요. 너드보드 서비스와 원격 MCP 서버에는 별도의 이용 조건이 적용돼요.
+The CLI source in this repository is [MIT licensed](./LICENSE). The Nerdboard service and its remote MCP server are governed by separate terms of service.
+
+---
+
+<p align="center">Made by <a href="https://nerdboard.kr">Nerdboard</a></p>

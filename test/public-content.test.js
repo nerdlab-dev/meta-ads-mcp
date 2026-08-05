@@ -10,7 +10,7 @@ import {
   inspectPublicFiles,
 } from "../scripts/check-public-content.js";
 
-test("허용 목록 밖의 파일 경로를 공개 파일로 허용하지 않는다", () => {
+test("rejects file paths outside the allowlist", () => {
   const files = [
     "notes/private-plan.md",
     ".private/settings.json",
@@ -19,14 +19,14 @@ test("허용 목록 밖의 파일 경로를 공개 파일로 허용하지 않는
 
   assert.deepEqual(
     inspectPublicFiles(files),
-    files.map(({ file }) => ({ file, reason: "허용되지 않은 파일 경로" })),
+    files.map(({ file }) => ({ file, reason: "Disallowed file path" })),
   );
 });
 
-test("바이너리 파일도 경로 허용 목록 검사를 받는다", () => {
+test("applies the path allowlist to binary files too", () => {
   assert.deepEqual(
     inspectPublicFiles([{ file: "notes/secret.bin", content: null }]),
-    [{ file: "notes/secret.bin", reason: "허용되지 않은 파일 경로" }],
+    [{ file: "notes/secret.bin", reason: "Disallowed file path" }],
   );
   assert.deepEqual(
     inspectPublicFiles([{ file: ".github/assets/demo.gif", content: null }]),
@@ -34,7 +34,7 @@ test("바이너리 파일도 경로 허용 목록 검사를 받는다", () => {
   );
 });
 
-test("법적 금칙어의 대소문자와 구분자 변형을 모두 차단한다", () => {
+test("blocks case and separator variants of prohibited legal terms", () => {
   const english = String.fromCodePoint(112, 105, 112, 101, 98, 111, 97, 114, 100);
   const korean = String.fromCodePoint(54028, 51060, 54532, 48372, 46300);
   const variants = [
@@ -52,11 +52,11 @@ test("법적 금칙어의 대소문자와 구분자 변형을 모두 차단한�
 
   assert.deepEqual(
     inspectPublicFiles(files),
-    files.map(({ file }) => ({ file, reason: "법적 금칙어" })),
+    files.map(({ file }) => ({ file, reason: "Prohibited legal term" })),
   );
 });
 
-test("고위험 자격증명 형식을 공개 파일로 허용하지 않는다", () => {
+test("rejects high-risk credential formats in public files", () => {
   const credentials = [
     ["-----BEGIN ", "PRIVATE KEY-----"].join(""),
     ["ghp_", "a".repeat(36)].join(""),
@@ -73,11 +73,11 @@ test("고위험 자격증명 형식을 공개 파일로 허용하지 않는다",
 
   assert.deepEqual(
     inspectPublicFiles(files),
-    files.map(({ file }) => ({ file, reason: "자격증명 의심" })),
+    files.map(({ file }) => ({ file, reason: "Suspected credential" })),
   );
 });
 
-test("Git이 추적하는 파일만 공개 검사 대상으로 사용한다", (context) => {
+test("inspects only files tracked by Git", (context) => {
   const rootDirectory = mkdtempSync(join(tmpdir(), "public-content-"));
   context.after(() => rmSync(rootDirectory, { force: true, recursive: true }));
 
@@ -93,11 +93,11 @@ test("Git이 추적하는 파일만 공개 검사 대상으로 사용한다", (c
 
   const file = "notes/private-plan.md";
   assert.deepEqual(checkPublicContent(rootDirectory), [
-    { file, reason: "허용되지 않은 파일 경로" },
+    { file, reason: "Disallowed file path" },
   ]);
 });
 
-test("공개 검사 CLI는 위반 파일이 있으면 실패한다", (context) => {
+test("public-content CLI fails when a violation exists", (context) => {
   const rootDirectory = mkdtempSync(join(tmpdir(), "public-content-cli-"));
   context.after(() => rmSync(rootDirectory, { force: true, recursive: true }));
 
@@ -116,5 +116,5 @@ test("공개 검사 CLI는 위반 파일이 있으면 실패한다", (context) =
   });
 
   assert.equal(result.status, 1);
-  assert.match(result.stdout, /허용되지 않은 파일 경로/);
+  assert.match(result.stdout, /Disallowed file path/);
 });
