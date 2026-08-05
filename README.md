@@ -9,14 +9,14 @@ Codex CLI와 Claude Code에 너드보드 Meta Ads MCP를 연결하는 공개 설
 Node.js 20 이상이 필요해요.
 
 ```bash
-npx -y @nerdboard/meta-ads-mcp@latest install
+npx -y @nerdlab-dev/meta-ads-mcp@latest install
 ```
 
 Codex CLI와 Claude Code가 모두 설치되어 있으면 대상을 지정해요.
 
 ```bash
-npx -y @nerdboard/meta-ads-mcp@latest install --client codex
-npx -y @nerdboard/meta-ads-mcp@latest install --client claude
+npx -y @nerdlab-dev/meta-ads-mcp@latest install --client codex
+npx -y @nerdlab-dev/meta-ads-mcp@latest install --client claude
 ```
 
 설치기는 각 제품의 공식 MCP 명령을 사용해요. 제품 설정 파일을 직접 수정하지 않아요.
