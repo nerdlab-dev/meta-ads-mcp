@@ -24,23 +24,23 @@ function createRunner({
     if (args[0] === "mcp" && args[1] === "get") {
       const registration = registrations[command];
       return registration === undefined
-        ? { status: 1, stdout: "", stderr: "서버 없음" }
+        ? { status: 1, stdout: "", stderr: "no such server" }
         : { status: 0, stdout: registration, stderr: "" };
     }
 
     if (args[0] === "mcp" && args.includes("add")) {
       return (
-        addResults[command] ?? { status: 0, stdout: "추가됨", stderr: "" }
+        addResults[command] ?? { status: 0, stdout: "added", stderr: "" }
       );
     }
 
-    return { status: 1, stdout: "", stderr: "예상하지 못한 명령" };
+    return { status: 1, stdout: "", stderr: "unexpected command" };
   };
   runner.calls = [];
   return runner;
 }
 
-test("종료 코드가 성공인 클라이언트만 감지한다", () => {
+test("detects only clients whose exit code is success", () => {
   const runner = (command) => ({
     status: command === "codex" ? 0 : 1,
     stdout: "",
@@ -50,33 +50,33 @@ test("종료 코드가 성공인 클라이언트만 감지한다", () => {
   assert.deepEqual(detectClients(runner), ["codex"]);
 });
 
-test("Codex만 설치됐으면 Codex를 선택한다", () => {
+test("selects Codex when only Codex is installed", () => {
   assert.deepEqual(selectClient(null, ["codex"]), { client: "codex" });
 });
 
-test("Claude만 설치됐으면 Claude를 선택한다", () => {
+test("selects Claude when only Claude is installed", () => {
   assert.deepEqual(selectClient(null, ["claude"]), { client: "claude" });
 });
 
-test("둘 다 설치됐으면 명시적 선택을 요구한다", () => {
+test("requires an explicit choice when both clients are installed", () => {
   const result = selectClient(null, ["codex", "claude"]);
 
   assert.match(result.error, /--client/);
 });
 
-test("설치된 클라이언트가 없으면 수동 설치를 안내한다", () => {
+test("points to manual install when no client is installed", () => {
   const result = selectClient(null, []);
 
-  assert.match(result.error, /수동 설치/);
+  assert.match(result.error, /manual install/);
 });
 
-test("설치되지 않은 클라이언트를 지정하면 실패한다", () => {
+test("fails when the requested client is not installed", () => {
   const result = selectClient("claude", ["codex"]);
 
-  assert.match(result.error, /찾을 수 없어요/);
+  assert.match(result.error, /Could not find/);
 });
 
-test("등록되지 않은 Codex 서버를 추가한다", async () => {
+test("adds an unregistered Codex server", async () => {
   const runner = createRunner();
 
   const result = await installMcp({ requestedClient: "codex", runner });
@@ -90,7 +90,7 @@ test("등록되지 않은 Codex 서버를 추가한다", async () => {
   assert.match(result.message, /nerdboard-meta-ads/);
 });
 
-test("Codex 로그인에서 Meta 읽기와 쓰기 권한을 모두 요청한다", async () => {
+test("requests both Meta read and write scopes in the Codex login", async () => {
   const runner = createRunner();
 
   const result = await installMcp({ requestedClient: "codex", runner });
@@ -103,7 +103,7 @@ test("Codex 로그인에서 Meta 읽기와 쓰기 권한을 모두 요청한다"
   assert.match(result.message, /ad-channel:meta:creative:write/);
 });
 
-test("등록되지 않은 Claude 서버를 사용자 범위에 추가한다", async () => {
+test("adds an unregistered Claude server at user scope", async () => {
   const runner = createRunner({ installedClients: ["claude"] });
 
   const result = await installMcp({ requestedClient: "claude", runner });
@@ -125,17 +125,17 @@ test("등록되지 않은 Claude 서버를 사용자 범위에 추가한다", as
   assert.match(result.message, /\/mcp/);
 });
 
-test("같은 URL이 이미 있으면 추가하지 않는다", async () => {
+test("does not add when the same URL is already registered", async () => {
   const runner = createRunner({ registrations: { codex: REMOTE_URL } });
 
   const result = await installMcp({ requestedClient: "codex", runner });
 
   assert.equal(result.ok, true);
   assert.equal(runner.calls.some(([, args]) => args.includes("add")), false);
-  assert.match(result.message, /이미 연결/);
+  assert.match(result.message, /already connected/);
 });
 
-test("같은 이름에 다른 URL이 있으면 덮어쓰지 않는다", async () => {
+test("does not overwrite when the same name has a different URL", async () => {
   const runner = createRunner({
     registrations: { codex: "https://example.com/mcp" },
   });
@@ -144,19 +144,19 @@ test("같은 이름에 다른 URL이 있으면 덮어쓰지 않는다", async ()
 
   assert.equal(result.ok, false);
   assert.equal(runner.calls.some(([, args]) => args.includes("add")), false);
-  assert.match(result.message, /변경하지 않았어요/);
+  assert.match(result.message, /left unchanged/);
 });
 
-test("추가 명령이 실패하면 종료 코드와 오류를 반환한다", async () => {
+test("returns the exit code and error when the add command fails", async () => {
   const runner = createRunner({
     addResults: {
-      codex: { status: 7, stdout: "", stderr: "권한 없음" },
+      codex: { status: 7, stdout: "", stderr: "permission denied" },
     },
   });
 
   const result = await installMcp({ requestedClient: "codex", runner });
 
   assert.equal(result.ok, false);
-  assert.match(result.message, /종료 코드 7/);
-  assert.match(result.message, /권한 없음/);
+  assert.match(result.message, /Exit code 7/);
+  assert.match(result.message, /permission denied/);
 });

@@ -3,9 +3,9 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const { version } = require("../package.json");
 
-const HELP = `너드보드 Meta Ads MCP 설치 도구
+const HELP = `Nerdboard Meta Ads MCP installer
 
-사용법:
+Usage:
   nerdboard-meta-ads-mcp install [--client codex|claude]
   nerdboard-meta-ads-mcp --help
   nerdboard-meta-ads-mcp --version`;
@@ -27,7 +27,7 @@ export function parseArgs(argv) {
   }
 
   if (argv[0] !== "install") {
-    return { error: "지원하지 않는 명령이에요." };
+    return { error: "Unsupported command." };
   }
 
   if (argv.length === 1) {
@@ -42,7 +42,7 @@ export function parseArgs(argv) {
     return { command: "install", client: argv[2] };
   }
 
-  return { error: "클라이언트는 codex 또는 claude만 지정할 수 있어요." };
+  return { error: "The client must be either codex or claude." };
 }
 
 export async function runCli(
