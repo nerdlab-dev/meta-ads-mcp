@@ -18,6 +18,24 @@ test("내부 작업 경로를 공개 파일로 허용하지 않는다", () => {
   ]);
 });
 
+test("에이전트 설정과 프롬프트 파일 경로를 공개 파일로 허용하지 않는다", () => {
+  const files = [
+    [[".", "codex"].join(""), "settings.json"].join("/"),
+    [[".", "agents"].join(""), "rules.md"].join("/"),
+    [[".", "claude"].join(""), "settings.json"].join("/"),
+    ["AG", "ENTS.md"].join(""),
+    ["CLA", "UDE.md"].join(""),
+    ["GEM", "INI.md"].join(""),
+    ["docs/design-", "pro", "mpt.md"].join(""),
+    ["docs/설계-", "프롬", "프트.md"].join(""),
+  ].map((file) => ({ file, content: "" }));
+
+  assert.deepEqual(
+    inspectPublicFiles(files),
+    files.map(({ file }) => ({ file, reason: "내부 작업 파일" })),
+  );
+});
+
 test("법적 금칙어의 대소문자와 구분자 변형을 모두 차단한다", () => {
   const variants = [
     ["Pipe", "Board"].join(""),

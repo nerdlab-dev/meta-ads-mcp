@@ -4,6 +4,18 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const INTERNAL_DIRECTORY = ["docs", ["super", "powers"].join("")].join("/");
+const INTERNAL_ROOTS = ["codex", "agents", "claude"].map((name) =>
+  [".", name].join(""),
+);
+const INTERNAL_FILES = [
+  ["AG", "ENTS.md"].join(""),
+  ["CLA", "UDE.md"].join(""),
+  ["GEM", "INI.md"].join(""),
+];
+const INTERNAL_FILE_TERMS = [
+  new RegExp(["pro", "mpt"].join(""), "i"),
+  new RegExp(["프롬", "프트"].join("")),
+];
 const LEGAL_TERMS = [
   new RegExp(["pipe", "board"].join("[\\s_-]*"), "i"),
   new RegExp(["파이프", "보드"].join("[\\s_-]*"), "i"),
@@ -19,7 +31,13 @@ const CREDENTIAL_PATTERNS = [
 
 export function inspectPublicFiles(files) {
   return files.flatMap(({ file, content }) => {
-    if (file.startsWith(`${INTERNAL_DIRECTORY}/`)) {
+    const root = file.split("/")[0];
+    if (
+      file.startsWith(`${INTERNAL_DIRECTORY}/`) ||
+      INTERNAL_ROOTS.includes(root) ||
+      INTERNAL_FILES.includes(file) ||
+      INTERNAL_FILE_TERMS.some((pattern) => pattern.test(file))
+    ) {
       return [{ file, reason: "내부 작업 파일" }];
     }
 
