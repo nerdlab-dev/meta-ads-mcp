@@ -1,5 +1,5 @@
 {
-  "name": "@nerdboard/meta-ads-mcp",
+  "name": "@nerdlab-dev/meta-ads-mcp",
   "version": "0.1.0",
   "description": "너드보드 Meta 광고 원격 MCP 설치 도구",
   "keywords": [
@@ -17,7 +17,7 @@
   },
   "type": "module",
   "bin": {
-    "nerdboard-meta-ads-mcp": "./bin/nerdboard-meta-ads-mcp.js"
+    "nerdboard-meta-ads-mcp": "bin/nerdboard-meta-ads-mcp.js"
   },
   "files": [
     "bin",
