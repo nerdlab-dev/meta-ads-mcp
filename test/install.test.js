@@ -86,7 +86,21 @@ test("등록되지 않은 Codex 서버를 추가한다", async () => {
     "codex",
     ["mcp", "add", "nerdboard-meta-ads", "--url", REMOTE_URL],
   ]);
-  assert.match(result.message, /codex mcp login nerdboard-meta-ads/);
+  assert.match(result.message, /codex mcp login/);
+  assert.match(result.message, /nerdboard-meta-ads/);
+});
+
+test("Codex 로그인에서 Meta 읽기와 쓰기 권한을 모두 요청한다", async () => {
+  const runner = createRunner();
+
+  const result = await installMcp({ requestedClient: "codex", runner });
+
+  assert.match(result.message, /--scopes/);
+  assert.match(result.message, /ad-channel:meta:read/);
+  assert.match(result.message, /ad-channel:meta:campaign:read/);
+  assert.match(result.message, /ad-channel:meta:creative:read/);
+  assert.match(result.message, /ad-channel:meta:campaign:write/);
+  assert.match(result.message, /ad-channel:meta:creative:write/);
 });
 
 test("등록되지 않은 Claude 서버를 사용자 범위에 추가한다", async () => {

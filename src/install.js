@@ -3,12 +3,19 @@ import { spawnSync } from "node:child_process";
 const CLIENTS = ["codex", "claude"];
 const SERVER_NAME = "nerdboard-meta-ads";
 const REMOTE_URL = "https://nerdboard.kr/mcp";
+const META_SCOPES = [
+  "ad-channel:meta:read",
+  "ad-channel:meta:campaign:read",
+  "ad-channel:meta:creative:read",
+  "ad-channel:meta:campaign:write",
+  "ad-channel:meta:creative:write",
+].join(",");
 
 const COMMANDS = {
   codex: {
     get: ["mcp", "get", SERVER_NAME],
     add: ["mcp", "add", SERVER_NAME, "--url", REMOTE_URL],
-    login: `codex mcp login ${SERVER_NAME}`,
+    login: `codex mcp login --scopes ${META_SCOPES} ${SERVER_NAME}`,
   },
   claude: {
     get: ["mcp", "get", SERVER_NAME],

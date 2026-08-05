@@ -26,7 +26,9 @@ npx -y @nerdboard/meta-ads-mcp@latest install --client claude
 Codex CLI에서는 설치 후 다음 명령을 실행해요.
 
 ```bash
-codex mcp login nerdboard-meta-ads
+codex mcp login \
+  --scopes ad-channel:meta:read,ad-channel:meta:campaign:read,ad-channel:meta:creative:read,ad-channel:meta:campaign:write,ad-channel:meta:creative:write \
+  nerdboard-meta-ads
 ```
 
 Claude Code에서는 `/mcp`를 실행한 뒤 브라우저에서 로그인해요.
