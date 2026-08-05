@@ -10,43 +10,32 @@ import {
   inspectPublicFiles,
 } from "../scripts/check-public-content.js";
 
-test("내부 작업 경로를 공개 파일로 허용하지 않는다", () => {
-  const file = ["docs", ["super", "powers"].join(""), "plan.md"].join("/");
-
-  assert.deepEqual(inspectPublicFiles([{ file, content: "" }]), [
-    { file, reason: "내부 작업 파일" },
-  ]);
-});
-
-test("에이전트 설정과 프롬프트 파일 경로를 공개 파일로 허용하지 않는다", () => {
+test("허용 목록 밖의 파일 경로를 공개 파일로 허용하지 않는다", () => {
   const files = [
-    [[".", "codex"].join(""), "settings.json"].join("/"),
-    [[".", "agents"].join(""), "rules.md"].join("/"),
-    [[".", "claude"].join(""), "settings.json"].join("/"),
-    ["AG", "ENTS.md"].join(""),
-    ["CLA", "UDE.md"].join(""),
-    ["GEM", "INI.md"].join(""),
-    ["docs/design-", "pro", "mpt.md"].join(""),
-    ["docs/설계-", "프롬", "프트.md"].join(""),
+    "notes/private-plan.md",
+    ".private/settings.json",
+    "INSTRUCTIONS.md",
   ].map((file) => ({ file, content: "" }));
 
   assert.deepEqual(
     inspectPublicFiles(files),
-    files.map(({ file }) => ({ file, reason: "내부 작업 파일" })),
+    files.map(({ file }) => ({ file, reason: "허용되지 않은 파일 경로" })),
   );
 });
 
 test("법적 금칙어의 대소문자와 구분자 변형을 모두 차단한다", () => {
+  const english = String.fromCodePoint(112, 105, 112, 101, 98, 111, 97, 114, 100);
+  const korean = String.fromCodePoint(54028, 51060, 54532, 48372, 46300);
   const variants = [
-    ["Pipe", "Board"].join(""),
-    ["pipe", "board"].join("-"),
-    ["pipe", "board"].join("_"),
-    ["pipe", "board"].join(" "),
-    ["파이프", "보드"].join(""),
-    ["파이프", "보드"].join(" "),
+    english,
+    `${english.slice(0, 4)}-${english.slice(4)}`,
+    `${english.slice(0, 4)}_${english.slice(4)}`,
+    `${english.slice(0, 4)} ${english.slice(4)}`,
+    korean,
+    `${korean.slice(0, 3)} ${korean.slice(3)}`,
   ];
   const files = variants.map((content, index) => ({
-    file: `fixture-${index}.txt`,
+    file: `src/fixture-${index}.js`,
     content,
   }));
 
@@ -67,7 +56,7 @@ test("고위험 자격증명 형식을 공개 파일로 허용하지 않는다",
     ["client_secret", "company-secret-value"].join("="),
   ];
   const files = credentials.map((content, index) => ({
-    file: `credential-${index}.txt`,
+    file: `src/credential-${index}.js`,
     content,
   }));
 
@@ -82,22 +71,18 @@ test("Git이 추적하는 파일만 공개 검사 대상으로 사용한다", (c
   context.after(() => rmSync(rootDirectory, { force: true, recursive: true }));
 
   execFileSync("git", ["init", "--quiet"], { cwd: rootDirectory });
-  const internalDirectory = join(
-    rootDirectory,
-    "docs",
-    ["super", "powers"].join(""),
-  );
+  const internalDirectory = join(rootDirectory, "notes");
   mkdirSync(internalDirectory, { recursive: true });
-  writeFileSync(join(internalDirectory, "plan.md"), "internal");
+  writeFileSync(join(internalDirectory, "private-plan.md"), "internal");
   writeFileSync(
     join(rootDirectory, "untracked.txt"),
-    ["pipe", "board"].join(""),
+    String.fromCodePoint(112, 105, 112, 101, 98, 111, 97, 114, 100),
   );
-  execFileSync("git", ["add", "docs"], { cwd: rootDirectory });
+  execFileSync("git", ["add", "notes"], { cwd: rootDirectory });
 
-  const file = ["docs", ["super", "powers"].join(""), "plan.md"].join("/");
+  const file = "notes/private-plan.md";
   assert.deepEqual(checkPublicContent(rootDirectory), [
-    { file, reason: "내부 작업 파일" },
+    { file, reason: "허용되지 않은 파일 경로" },
   ]);
 });
 
@@ -106,14 +91,10 @@ test("공개 검사 CLI는 위반 파일이 있으면 실패한다", (context) =
   context.after(() => rmSync(rootDirectory, { force: true, recursive: true }));
 
   execFileSync("git", ["init", "--quiet"], { cwd: rootDirectory });
-  const internalDirectory = join(
-    rootDirectory,
-    "docs",
-    ["super", "powers"].join(""),
-  );
+  const internalDirectory = join(rootDirectory, "notes");
   mkdirSync(internalDirectory, { recursive: true });
-  writeFileSync(join(internalDirectory, "plan.md"), "internal");
-  execFileSync("git", ["add", "docs"], { cwd: rootDirectory });
+  writeFileSync(join(internalDirectory, "private-plan.md"), "internal");
+  execFileSync("git", ["add", "notes"], { cwd: rootDirectory });
 
   const script = fileURLToPath(
     new URL("../scripts/check-public-content.js", import.meta.url),
@@ -124,5 +105,5 @@ test("공개 검사 CLI는 위반 파일이 있으면 실패한다", (context) =
   });
 
   assert.equal(result.status, 1);
-  assert.match(result.stdout, /내부 작업 파일/);
+  assert.match(result.stdout, /허용되지 않은 파일 경로/);
 });

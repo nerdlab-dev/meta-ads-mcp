@@ -3,22 +3,26 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
-const INTERNAL_DIRECTORY = ["docs", ["super", "powers"].join("")].join("/");
-const INTERNAL_ROOTS = ["codex", "agents", "claude"].map((name) =>
-  [".", name].join(""),
-);
-const INTERNAL_FILES = [
-  ["AG", "ENTS.md"].join(""),
-  ["CLA", "UDE.md"].join(""),
-  ["GEM", "INI.md"].join(""),
-];
-const INTERNAL_FILE_TERMS = [
-  new RegExp(["pro", "mpt"].join(""), "i"),
-  new RegExp(["프롬", "프트"].join("")),
-];
+const ALLOWED_FILES = new Set([
+  ".github/workflows/ci.yml",
+  ".gitignore",
+  "LICENSE",
+  "README.md",
+  "package.json",
+  "scripts/check-public-content.js",
+]);
+const ALLOWED_DIRECTORIES = ["bin/", "src/", "test/"];
+const englishLegalTerm = [
+  String.fromCodePoint(112, 105, 112, 101),
+  String.fromCodePoint(98, 111, 97, 114, 100),
+].join("[\\s_-]*");
+const koreanLegalTerm = [
+  String.fromCodePoint(54028, 51060, 54532),
+  String.fromCodePoint(48372, 46300),
+].join("[\\s_-]*");
 const LEGAL_TERMS = [
-  new RegExp(["pipe", "board"].join("[\\s_-]*"), "i"),
-  new RegExp(["파이프", "보드"].join("[\\s_-]*"), "i"),
+  new RegExp(englishLegalTerm, "i"),
+  new RegExp(koreanLegalTerm),
 ];
 const CREDENTIAL_PATTERNS = [
   new RegExp(["-----BEGIN ", "(?:[A-Z]+ )?PRIVATE KEY-----"].join("")),
@@ -31,14 +35,11 @@ const CREDENTIAL_PATTERNS = [
 
 export function inspectPublicFiles(files) {
   return files.flatMap(({ file, content }) => {
-    const root = file.split("/")[0];
     if (
-      file.startsWith(`${INTERNAL_DIRECTORY}/`) ||
-      INTERNAL_ROOTS.includes(root) ||
-      INTERNAL_FILES.includes(file) ||
-      INTERNAL_FILE_TERMS.some((pattern) => pattern.test(file))
+      !ALLOWED_FILES.has(file) &&
+      !ALLOWED_DIRECTORIES.some((directory) => file.startsWith(directory))
     ) {
-      return [{ file, reason: "내부 작업 파일" }];
+      return [{ file, reason: "허용되지 않은 파일 경로" }];
     }
 
     if (LEGAL_TERMS.some((pattern) => pattern.test(content))) {
