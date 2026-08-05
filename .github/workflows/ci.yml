@@ -1,0 +1,30 @@
+name: 검사
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Node.js ${{ matrix.node-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20, 22]
+    steps:
+      - name: 소스 받기
+        uses: actions/checkout@v5
+      - name: Node.js 준비
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          package-manager-cache: false
+      - name: 테스트
+        run: npm test
+      - name: 문법 검사
+        run: npm run check
+      - name: 패키지 구성 검사
+        run: npm pack --dry-run
