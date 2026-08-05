@@ -26,5 +26,7 @@ jobs:
         run: npm test
       - name: 문법 검사
         run: npm run check
+      - name: 공개 콘텐츠 검사
+        run: npm run check:public
       - name: 패키지 구성 검사
         run: npm pack --dry-run
