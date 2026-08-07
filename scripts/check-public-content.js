@@ -5,6 +5,7 @@ import { pathToFileURL } from "node:url";
 
 const ALLOWED_FILES = new Set([
   ".github/assets/demo.gif",
+  ".github/assets/header.svg",
   ".github/workflows/ci.yml",
   ".gitignore",
   "LICENSE",

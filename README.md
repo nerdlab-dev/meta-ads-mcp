@@ -1,6 +1,6 @@
 <div align="center">
 
-# Nerdboard Meta Ads MCP
+[![Nerdboard Meta Ads MCP](.github/assets/header.svg)](https://nerdboard.kr)
 
 **Launch and manage Meta ads from Claude Code and Codex CLI — just by asking.**
 
