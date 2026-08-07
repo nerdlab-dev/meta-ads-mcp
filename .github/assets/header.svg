@@ -1,36 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="880" height="200" viewBox="0 0 880 200" role="img" aria-label="Nerdboard Meta Ads MCP">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#130F22"/>
-      <stop offset="55%" stop-color="#0B0A12"/>
-      <stop offset="100%" stop-color="#1C0F33"/>
+      <stop offset="0%" stop-color="#0B1426"/>
+      <stop offset="55%" stop-color="#070C18"/>
+      <stop offset="100%" stop-color="#0C2148"/>
     </linearGradient>
     <linearGradient id="title" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#C9A9FF"/>
+      <stop offset="100%" stop-color="#93C0FF"/>
     </linearGradient>
     <radialGradient id="glow" cx="0.86" cy="0.08" r="0.75">
-      <stop offset="0%" stop-color="#8B48F0" stop-opacity="0.45"/>
-      <stop offset="100%" stop-color="#8B48F0" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#2F7DF6" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#2F7DF6" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#A970FF"/>
-      <stop offset="50%" stop-color="#8B48F0"/>
-      <stop offset="100%" stop-color="#5B21B6"/>
+      <stop offset="0%" stop-color="#63B3FF"/>
+      <stop offset="50%" stop-color="#2F7DF6"/>
+      <stop offset="100%" stop-color="#1B3FA8"/>
     </linearGradient>
     <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.38"/>
       <stop offset="60%" stop-color="#FFFFFF" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="55%" stop-color="#8B48F0" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="#8B48F0" stop-opacity="0"/>
+      <stop offset="55%" stop-color="#2F7DF6" stop-opacity="0.38"/>
+      <stop offset="100%" stop-color="#2F7DF6" stop-opacity="0"/>
     </radialGradient>
   </defs>
   <rect width="880" height="200" rx="18" fill="url(#bg)"/>
   <rect width="880" height="200" rx="18" fill="url(#glow)"/>
-  <rect x="0.75" y="0.75" width="878.5" height="198.5" rx="17.25" fill="none" stroke="#8B48F0" stroke-opacity="0.35"/>
-
+  <rect x="0.75" y="0.75" width="878.5" height="198.5" rx="17.25" fill="none" stroke="#2F7DF6" stroke-opacity="0.38"/>
   <circle cx="88" cy="100" r="62" fill="url(#halo)"/>
   <rect x="44" y="56" width="88" height="88" rx="24" fill="url(#mark)"/>
   <rect x="44" y="56" width="88" height="88" rx="24" fill="url(#gloss)"/>
@@ -40,7 +39,7 @@
   <path d="M112 68 Q113.8 76.2 122 78 Q113.8 79.8 112 88 Q110.2 79.8 102 78 Q110.2 76.2 112 68 Z" fill="#FFFFFF" fill-opacity="0.95"/>
   <path d="M68 115 Q69.26 120.74 75 122 Q69.26 123.26 68 129 Q66.74 123.26 61 122 Q66.74 120.74 68 115 Z" fill="#FFFFFF" fill-opacity="0.75"/>
   <text x="164" y="92" font-family="Inter, Helvetica, Arial, sans-serif" font-size="40" font-weight="800" letter-spacing="-1.2" fill="url(#title)">Nerdboard Meta Ads MCP</text>
-  <text x="166" y="126" font-family="Inter, Helvetica, Arial, sans-serif" font-size="17" fill="#A79FC4">Launch and manage Meta ads from Claude Code and Codex CLI</text>
-  <rect x="166" y="146" width="176" height="30" rx="15" fill="#8B48F0" fill-opacity="0.16" stroke="#8B48F0" stroke-opacity="0.5"/>
-  <text x="184" y="166" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#C9A9FF">nerdboard.kr  →</text>
+  <text x="166" y="126" font-family="Inter, Helvetica, Arial, sans-serif" font-size="17" fill="#9FB2D4">Launch and manage Meta ads from Claude Code and Codex CLI</text>
+  <rect x="166" y="146" width="176" height="30" rx="15" fill="#2F7DF6" fill-opacity="0.18" stroke="#2F7DF6" stroke-opacity="0.55"/>
+  <text x="184" y="166" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#93C0FF">nerdboard.kr  →</text>
 </svg>
