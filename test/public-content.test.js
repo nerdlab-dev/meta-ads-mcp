@@ -38,6 +38,10 @@ test("allows localized READMEs and the public setup guide", () => {
   assert.deepEqual(
     inspectPublicFiles([
       { file: ".gitattributes", content: "*.pdf binary" },
+      {
+        file: ".github/assets/header.en.svg",
+        content: "<svg></svg>",
+      },
       { file: "README.en.md", content: "English documentation" },
       {
         file: "docs/nerdboard-mcp-setup-guide.pdf",

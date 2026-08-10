@@ -2,7 +2,7 @@
 
 [한국어](./README.md) | **English**
 
-[![Nerdboard Meta Ads MCP](.github/assets/header.svg)](https://nerdboard.kr)
+[![Nerdboard Meta Ads MCP](.github/assets/header.en.svg)](https://nerdboard.kr)
 
 **Launch and manage Meta ads from Claude Code and Codex CLI — just by asking.**
 
