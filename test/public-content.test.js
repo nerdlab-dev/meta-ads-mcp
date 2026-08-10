@@ -34,6 +34,20 @@ test("applies the path allowlist to binary files too", () => {
   );
 });
 
+test("allows localized READMEs and the public setup guide", () => {
+  assert.deepEqual(
+    inspectPublicFiles([
+      { file: ".gitattributes", content: "*.pdf binary" },
+      { file: "README.en.md", content: "English documentation" },
+      {
+        file: "docs/nerdboard-mcp-setup-guide.pdf",
+        content: null,
+      },
+    ]),
+    [],
+  );
+});
+
 test("blocks case and separator variants of prohibited legal terms", () => {
   const english = String.fromCodePoint(112, 105, 112, 101, 98, 111, 97, 114, 100);
   const korean = String.fromCodePoint(54028, 51060, 54532, 48372, 46300);
