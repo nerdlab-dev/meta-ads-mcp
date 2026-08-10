@@ -4,12 +4,16 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const ALLOWED_FILES = new Set([
+  ".gitattributes",
   ".github/assets/demo.gif",
+  ".github/assets/header.en.svg",
   ".github/assets/header.svg",
   ".github/workflows/ci.yml",
   ".gitignore",
   "LICENSE",
+  "README.en.md",
   "README.md",
+  "docs/nerdboard-mcp-setup-guide.pdf",
   "package.json",
   "scripts/check-public-content.js",
 ]);

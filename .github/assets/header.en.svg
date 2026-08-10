@@ -39,7 +39,7 @@
   <path d="M112 68 Q113.8 76.2 122 78 Q113.8 79.8 112 88 Q110.2 79.8 102 78 Q110.2 76.2 112 68 Z" fill="#FFFFFF" fill-opacity="0.95"/>
   <path d="M68 115 Q69.26 120.74 75 122 Q69.26 123.26 68 129 Q66.74 123.26 61 122 Q66.74 120.74 68 115 Z" fill="#FFFFFF" fill-opacity="0.75"/>
   <text x="164" y="92" font-family="Inter, Helvetica, Arial, sans-serif" font-size="40" font-weight="800" letter-spacing="-1.2" fill="url(#title)">Nerdboard Meta Ads MCP</text>
-  <text x="166" y="126" font-family="Pretendard, 'Noto Sans KR', 'Apple SD Gothic Neo', Inter, Helvetica, Arial, sans-serif" font-size="17" fill="#9FB2D4">Meta 광고 운영을 Claude Code와 Codex CLI에서 바로 시작하세요</text>
+  <text x="166" y="126" font-family="Inter, Helvetica, Arial, sans-serif" font-size="17" fill="#9FB2D4">Launch and manage Meta ads from Claude Code and Codex CLI</text>
   <rect x="166" y="146" width="176" height="30" rx="15" fill="#2F7DF6" fill-opacity="0.18" stroke="#2F7DF6" stroke-opacity="0.55"/>
   <text x="184" y="166" font-family="Inter, Helvetica, Arial, sans-serif" font-size="14" font-weight="600" fill="#93C0FF">nerdboard.kr  →</text>
 </svg>

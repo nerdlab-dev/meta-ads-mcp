@@ -1,54 +1,58 @@
 <div align="center">
 
-[![Nerdboard Meta Ads MCP](.github/assets/header.svg)](https://nerdboard.kr)
+**한국어** | [English](./README.en.md)
 
-**Launch and manage Meta ads from Claude Code and Codex CLI — just by asking.**
+[![너드보드 Meta 광고 MCP](.github/assets/header.svg)](https://nerdboard.kr)
 
-[![npm version](https://img.shields.io/npm/v/%40nerdlab-dev%2Fmeta-ads-mcp?logo=npm&color=cb3837)](https://www.npmjs.com/package/@nerdlab-dev/meta-ads-mcp)
-[![npm downloads](https://img.shields.io/npm/dm/%40nerdlab-dev%2Fmeta-ads-mcp)](https://www.npmjs.com/package/@nerdlab-dev/meta-ads-mcp)
+**광고 성과 조회부터 캠페인 운영까지, AI와 대화하며 처리하세요.**
+
+[![npm 버전](https://img.shields.io/npm/v/%40nerdlab-dev%2Fmeta-ads-mcp?logo=npm&color=cb3837)](https://www.npmjs.com/package/@nerdlab-dev/meta-ads-mcp)
+[![npm 다운로드](https://img.shields.io/npm/dm/%40nerdlab-dev%2Fmeta-ads-mcp)](https://www.npmjs.com/package/@nerdlab-dev/meta-ads-mcp)
 [![CI](https://github.com/nerdlab-dev/meta-ads-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/nerdlab-dev/meta-ads-mcp/actions/workflows/ci.yml)
-[![Node.js ≥ 20](https://img.shields.io/node/v/%40nerdlab-dev%2Fmeta-ads-mcp?logo=nodedotjs&logoColor=white)](https://nodejs.org)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![Node.js 20 이상](https://img.shields.io/node/v/%40nerdlab-dev%2Fmeta-ads-mcp?logo=nodedotjs&logoColor=white)](https://nodejs.org)
+[![라이선스: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-[![Works with Claude Code](https://img.shields.io/badge/Works_with-Claude_Code-4A4A4A?style=flat-square)](https://claude.com/claude-code)
-[![Works with OpenAI](https://img.shields.io/badge/Works_with-OpenAI-000000?style=flat-square&logo=data:image/svg%2Bxml;base64,PHN2ZyB3aWR0aD0iNzE2IiBoZWlnaHQ9IjcxNiIgdmlld0JveD0iMCAwIDcxNiA3MTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTUwOC43NDkgMzE3LjM5OUM1MTYuNzc3IDI4Ny4zMTQgNTA4Ljk5MSAyNTMuODg0IDQ4NS4zODkgMjMwLjI4MkM0NjEuNzg4IDIwNi42ODEgNDI4LjM2IDE5OC44OTUgMzk4LjI3MyAyMDYuOTIzQzM3Ni4yMzEgMTg0LjkyOCAzNDMuMzkgMTc0Ljk1NiAzMTEuMTQ4IDE4My41OTZDMjc4LjkwNiAxOTIuMjM0IDI1NS40NSAyMTcuMjkyIDI0Ny4zNiAyNDcuMzYxQzIxNy4yOTEgMjU1LjQ1MSAxOTIuMjMzIDI3OC45MSAxODMuNTk1IDMxMS4xNDlDMTc0Ljk1NyAzNDMuMzkxIDE4NC45MjcgMzc2LjIzMiAyMDYuOTI0IDM5OC4yNzRDMTk4Ljg5NiA0MjguMzU5IDIwNi42ODMgNDYxLjc4OSAyMzAuMjg0IDQ4NS4zOTFDMjUzLjg4NSA1MDguOTkyIDI4Ny4zMTMgNTE2Ljc3OSAzMTcuNDAxIDUwOC43NUMzMzkuNDQyIDUzMC43NDUgMzcyLjI4NiA1NDAuNzE3IDQwNC41MjUgNTMyLjA3OUM0MzYuNzY3IDUyMy40NDEgNDYwLjIyMyA0OTguMzg0IDQ2OC4zMTMgNDY4LjMxNUM0OTguMzgzIDQ2MC4yMjQgNTIzLjQ0IDQzNi43NjYgNTMyLjA3OCA0MDQuNTI2QzU0MC43MTYgMzcyLjI4NSA1MzAuNzQ3IDMzOS40NDMgNTA4Ljc0OSAzMTcuNDAyVjMxNy4zOTlaTTQ3MC44OTkgMjQ0Ljc3NkM0ODYuODkyIDI2MC43NyA0OTMuNDg4IDI4Mi42MDEgNDkwLjY4NyAzMDMuNDEyTDQxNS41NzcgMjYwLjA0NkM0MTIuNDExIDI1OC4yMTggNDA4LjUwOSAyNTguMjE4IDQwNS4zNDUgMjYwLjA0NkwzMTcuNDAxIDMxMC44MlYyNzcuNTI2QzMxNy40MDEgMjc1LjE5MSAzMTguNjUyIDI3My4wMDUgMzIwLjY3NiAyNzEuODM3TDM4Ny42NDQgMjMzLjE3NEM0MTQuMTc4IDIxOC4zNTMgNDQ4LjM0NiAyMjIuMjIzIDQ3MC45MDEgMjQ0Ljc3Nkg0NzAuODk5Wk0zNTcuODM3IDMxMS4xNDRMMzk4LjI3NSAzMzQuNDkxVjM4MS4xODVMMzU3LjgzNyA0MDQuNTMyTDMxNy4zOTggMzgxLjE4NVYzMzQuNDkxTDM1Ny44MzcgMzExLjE0NFpNMjY0Ljc3NiAyNjkuNjkzQzI2NS4yMDcgMjM5LjMwNSAyODUuNjQ0IDIxMS42NDkgMzE2LjQ1MyAyMDMuMzkzQzMzOC4zIDE5Ny41NCAzNjAuNTA1IDIwMi43NDQgMzc3LjEyNyAyMTUuNTczTDMwMi4wMTQgMjU4LjkzN0MyOTguODQ4IDI2MC43NjQgMjk2Ljg5OCAyNjQuMTQ0IDI5Ni44OTggMjY3Ljc5OFYzNjkuMzQ2TDI2OC4wNjUgMzUyLjY5OUMyNjYuMDQzIDM1MS41MzEgMjY0Ljc3NiAzNDkuMzUzIDI2NC43NzYgMzQ3LjAxN1YyNjkuNjkxVjI2OS42OTNaTTIwMy4zOTEgMzE2LjQ1NEMyMDkuMjQ0IDI5NC42MDggMjI0Ljg1NCAyNzcuOTc4IDI0NC4yNzYgMjY5Ljk5OVYzNTYuNzNDMjQ0LjI3NiAzNjAuMzg0IDI0Ni4yMjYgMzYzLjc2MyAyNDkuMzkyIDM2NS41OTFMMzM3LjMzNyA0MTYuMzY1TDMwOC41MDMgNDMzLjAxM0MzMDYuNDgxIDQzNC4xODEgMzAzLjk2MSA0MzQuMTg4IDMwMS45MzkgNDMzLjAyTDIzNC45NzEgMzk0LjM1N0MyMDguODY4IDM3OC43ODkgMTk1LjEzOCAzNDcuMjYxIDIwMy4zOTEgMzE2LjQ1NFpNMjQ0Ljc3NSA0NzAuOUMyMjguNzgxIDQ1NC45MDYgMjIyLjE4NiA0MzMuMDc1IDIyNC45ODYgNDEyLjI2NEwzMDAuMDk2IDQ1NS42M0MzMDMuMjYzIDQ1Ny40NTcgMzA3LjE2NCA0NTcuNDU3IDMxMC4zMjggNDU1LjYzTDM5OC4yNzMgNDA0Ljg1NlY0MzguMTQ5QzM5OC4yNzMgNDQwLjQ4NSAzOTcuMDIyIDQ0Mi42NzEgMzk0Ljk5NyA0NDMuODM5TDMyOC4wMjkgNDgyLjUwMkMzMDEuNDk1IDQ5Ny4zMjIgMjY3LjMyNyA0OTMuNDUyIDI0NC43NzIgNDcwLjlIMjQ0Ljc3NVpNNDUwLjg5NyA0NDUuOTgyQzQ1MC40NjYgNDc2LjM3MSA0MzAuMDI5IDUwNC4wMjcgMzk5LjIyIDUxMi4yODNDMzc3LjM3MyA1MTguMTM2IDM1NS4xNjggNTEyLjkzMiAzMzguNTQ3IDUwMC4xMDJMNDEzLjY1OSA0NTYuNzM4QzQxNi44MjYgNDU0LjkxMSA0MTguNzc1IDQ1MS41MzIgNDE4Ljc3NSA0NDcuODc3VjM0Ni4zMjlMNDQ3LjYwOSAzNjIuOTc3QzQ0OS42MzEgMzY0LjE0NSA0NTAuODk3IDM2Ni4zMjMgNDUwLjg5NyAzNjguNjU5VjQ0NS45ODVWNDQ1Ljk4MlpNNTEyLjI4MiAzOTkuMjIxQzUwNi40MjkgNDIxLjA2OCA0OTAuODE5IDQzNy42OTcgNDcxLjM5NyA0NDUuNjc2VjM1OC45NDZDNDcxLjM5NyAzNTUuMjkyIDQ2OS40NDggMzUxLjkxMiA0NjYuMjgxIDM1MC4wODVMMzc4LjMzNiAyOTkuMzExTDQwNy4xNyAyODIuNjYzQzQwOS4xOTIgMjgxLjQ5NSA0MTEuNzEyIDI4MS40ODcgNDEzLjczNCAyODIuNjU1TDQ4MC43MDIgMzIxLjMxOEM1MDYuODA1IDMzNi44ODcgNTIwLjUzNiAzNjguNDE1IDUxMi4yODIgMzk5LjIyMVoiIGZpbGw9IndoaXRlIi8+PC9zdmc+)](https://developers.openai.com/codex/cli/)
-[![Built on Model Context Protocol](https://img.shields.io/badge/Built_on-Model_Context_Protocol-000000?style=flat-square&logo=modelcontextprotocol&logoColor=white)](https://modelcontextprotocol.io)
+[![Claude Code 지원](https://img.shields.io/badge/Works_with-Claude_Code-4A4A4A?style=flat-square)](https://claude.com/claude-code)
+[![OpenAI 지원](https://img.shields.io/badge/Works_with-OpenAI-000000?style=flat-square)](https://developers.openai.com/codex/cli/)
+[![Model Context Protocol 기반](https://img.shields.io/badge/Built_on-Model_Context_Protocol-000000?style=flat-square&logo=modelcontextprotocol&logoColor=white)](https://modelcontextprotocol.io)
 
-![Demo — upload a creative, ask for an ad, see it live in Meta Ads Manager](.github/assets/demo.gif)
+![데모 - 소재를 올리고 광고 생성을 요청하면 Meta 광고 관리자에 바로 반영돼요](.github/assets/demo.gif)
 
 </div>
 
-Setting up a Meta campaign means clicking through Ads Manager screens for every campaign, ad set, and ad. With Nerdboard's hosted remote MCP, your AI coding agent does it for you — **no Meta developer token, no self-hosting, no API keys on your machine**.
+Meta 광고를 하나 집행하려면 광고 관리자에서 캠페인, 광고 세트, 광고를 차례로 만들어야 해요. 너드보드 원격 MCP를 연결하면 이 과정을 Claude Code나 Codex CLI에서 대화로 처리할 수 있어요. **Meta 개발자 토큰을 발급받거나 서버를 직접 띄울 필요도, API 키를 PC에 저장할 필요도 없어요.**
 
-This repository is the thin MIT-licensed installer. All ad features run on Nerdboard's managed server.
+이 저장소에는 너드보드 원격 MCP를 연결하는 가벼운 설치 도구만 공개되어 있어요. 실제 광고 작업은 너드보드 서버에서 처리해요.
 
-## What you can do
+## 무엇을 할 수 있나요?
 
-- **Launch campaigns** — "Launch a Meta ad with my new creative, ₩30,000/day, retargeting." One ask creates the campaign, ad set, and ad.
-- **Analyze performance** — spend, ROAS, purchases, demographics, and placement breakdowns through natural conversation.
-- **Manage creatives** — upload images and videos, then reuse them across ads.
-- **Find your audience** — search interests, behaviors, and geo targeting without leaving the terminal.
-- **Stay in control** — pause, resume, and tune budgets with plain-language requests.
+- **캠페인을 바로 시작해요** - “새 소재로 일 예산 3만 원짜리 Meta 리타게팅 광고를 만들어 줘.”라고 요청하면 캠페인부터 광고까지 한 번에 만들어요.
+- **성과를 한눈에 살펴봐요** - 광고비, ROAS, 구매 수는 물론 인구 통계와 노출 위치별 성과도 대화로 확인해요.
+- **소재를 올리고 다시 써요** - 이미지와 동영상을 업로드한 뒤 여러 광고에 활용해요.
+- **알맞은 타겟을 찾아요** - 관심사, 행동, 지역 조건을 터미널에서 바로 검색해요.
+- **운영 중인 광고를 조정해요** - 광고를 잠시 멈추거나 다시 시작하고, 예산도 대화로 바꿔요.
 
-## Quick start
+## 빠른 시작
 
-Requires **Node.js 20+** and **Claude Code** or **Codex CLI**. Setup takes about 2 minutes.
+준비물은 **Node.js 20 이상**과 **Claude Code** 또는 **Codex CLI**예요. 설치는 보통 2분이면 끝나요.
+
+너드보드가 처음이라면 [너드보드 MCP 설치 가이드(PDF)](./docs/nerdboard-mcp-setup-guide.pdf)를 먼저 읽어 보세요. 회원가입부터 광고 채널 연결, 데이터 수집, MCP 승인까지 화면을 보며 따라갈 수 있어요.
 
 ```bash
 npx -y @nerdlab-dev/meta-ads-mcp@latest install
 ```
 
-If both clients are installed, pick one:
+Claude Code와 Codex CLI가 모두 설치되어 있다면 연결할 제품을 하나 골라 주세요.
 
 ```bash
 npx -y @nerdlab-dev/meta-ads-mcp@latest install --client claude
 npx -y @nerdlab-dev/meta-ads-mcp@latest install --client codex
 ```
 
-Then sign in:
+연결이 끝나면 로그인해요.
 
-- **Claude Code** — run `/mcp` and complete the login in your browser.
-- **Codex CLI** — run:
+- **Claude Code** - `/mcp`를 실행한 뒤 브라우저에서 로그인해요.
+- **Codex CLI** - 아래 명령을 실행해요.
 
   ```bash
   codex mcp login \
@@ -56,41 +60,41 @@ Then sign in:
     nerdboard-meta-ads
   ```
 
-During login you choose your Nerdboard workspace and permissions. If you still need a subscription or a connected Meta ad account, Nerdboard walks you through it on screen.
+로그인할 때 사용할 너드보드 작업공간과 AI가 사용할 권한을 고르게 돼요. 아직 구독을 시작하지 않았거나 Meta 광고 계정을 연결하지 않았다면 화면 안내에 따라 먼저 준비해 주세요.
 
-That's it — ask your agent for an ad.
+여기까지 했다면 준비 끝이에요. 이제 원하는 광고 작업을 에이전트에게 말해 보세요.
 
-## How it works
+## 어떻게 연결되나요?
 
 ```mermaid
 flowchart LR
-    installer["This CLI<br/>(thin installer, MIT)"] -. registers .-> client
-    client["Claude Code / Codex CLI"] -- "MCP over HTTPS + OAuth" --> server["Nerdboard remote MCP"]
-    server -- "Meta Marketing API" --> meta["Meta Ads"]
+    installer["설치 도구<br/>(MIT 라이선스)"] -. 연결 등록 .-> client
+    client["Claude Code / Codex CLI"] -- "HTTPS MCP + OAuth" --> server["너드보드 원격 MCP"]
+    server -- "Meta Marketing API" --> meta["Meta 광고"]
 ```
 
-The installer registers `nerdboard-meta-ads` in your MCP client using each product's official `mcp add` command. Every ad operation runs on Nerdboard's managed server, which talks to the Meta Marketing API on your behalf. Using it requires a Nerdboard account, an active subscription, and a connected Meta ad account.
+설치 도구는 각 제품이 제공하는 `mcp add` 명령으로 `nerdboard-meta-ads` 연결을 등록해요. 광고 관련 요청은 너드보드 서버에서 처리하고, 서버가 사용자 대신 Meta Marketing API와 통신해요. 너드보드 구독이 활성 상태여야 하고 Meta 광고 계정도 연결되어 있어야 해요.
 
-## Security & transparency
+## 설치 도구는 어디까지 바꾸나요?
 
-What the installer does:
+설치 도구는 MCP 연결에 꼭 필요한 설정만 확인하고 바꿔요.
 
-- Detects whether Codex CLI and Claude Code are installed.
-- Checks whether a `nerdboard-meta-ads` connection already exists.
-- Registers the connection with the product's official `mcp add` command.
-- Leaves everything untouched when the same connection already exists.
-- Refuses to overwrite when the same name points to a different URL.
+- Codex CLI와 Claude Code가 설치되어 있는지 확인해요.
+- `nerdboard-meta-ads` 연결이 이미 있는지 살펴봐요.
+- 제품의 공식 `mcp add` 명령으로 연결을 등록해요.
+- 같은 연결이 이미 있으면 아무것도 바꾸지 않아요.
+- 같은 이름이 다른 URL을 가리키면 기존 설정을 덮어쓰지 않고 멈춰요.
 
-What the installer never does:
+다음 정보나 설정에는 손대지 않아요.
 
-- Read or store Meta access tokens.
-- Proxy or process ad requests locally.
-- Include Nerdboard server code or ad-creation logic.
-- Delete or overwrite your existing MCP configuration.
+- Meta 액세스 토큰을 읽거나 저장하지 않아요.
+- 사용자 PC에서 광고 요청을 중계하거나 처리하지 않아요.
+- 너드보드 서버 코드나 광고 생성 로직을 내려받지 않아요.
+- 기존 MCP 설정을 삭제하거나 덮어쓰지 않아요.
 
-Every push and pull request runs an automated public-content check covering file allowlists, credential patterns, and prohibited terms.
+푸시나 풀 리퀘스트가 올라올 때마다 공개 파일 허용 목록, 인증정보 패턴, 금지 용어를 자동으로 검사해요.
 
-## Manual install
+## 직접 연결하고 싶다면
 
 Claude Code:
 
@@ -104,13 +108,13 @@ Codex CLI:
 codex mcp add nerdboard-meta-ads --url https://nerdboard.kr/mcp
 ```
 
-Any other remote-MCP-capable client (Cursor, etc.) can register the URL directly:
+Cursor처럼 원격 MCP를 지원하는 다른 클라이언트에서는 아래 주소를 직접 등록하면 돼요.
 
 ```text
 https://nerdboard.kr/mcp
 ```
 
-## Development
+## 개발 명령어
 
 ```bash
 npm test
@@ -119,14 +123,14 @@ npm run check:public
 npm pack --dry-run
 ```
 
-## License
+## 라이선스
 
-The CLI source in this repository is [MIT licensed](./LICENSE). The Nerdboard service and its remote MCP server are governed by separate terms of service.
+이 저장소에 공개된 CLI 소스에는 [MIT 라이선스](./LICENSE)가 적용돼요. 너드보드 서비스와 원격 MCP 서버는 별도의 서비스 이용약관을 따라요.
 
-## Trademarks
+## 상표
 
-OpenAI and Codex are trademarks of OpenAI. Claude and Claude Code are trademarks of Anthropic, PBC. Meta is a trademark of Meta Platforms, Inc. All marks are used here only to describe compatibility. This project is independent and is not affiliated with, endorsed by, or sponsored by any of them.
+OpenAI와 Codex는 OpenAI의 상표예요. Claude와 Claude Code는 Anthropic, PBC의 상표이고, Meta는 Meta Platforms, Inc.의 상표예요. 각 상표는 호환성을 설명하기 위해서만 사용해요. 이 프로젝트는 해당 회사들과 별개로 운영하며, 제휴나 보증, 후원을 받지 않아요.
 
 ---
 
-<p align="center">Made by <a href="https://nerdboard.kr">Nerdboard</a></p>
+<p align="center"><a href="https://nerdboard.kr">Nerdboard</a>가 만들었어요.</p>
