@@ -55,14 +55,30 @@ npx -y @nerdlab-dev/meta-ads-mcp@latest install --client codex
 - **Codex CLI** - 아래 명령을 실행해요.
 
   ```bash
-  codex mcp login \
-    --scopes ad-channel:meta:read,ad-channel:meta:campaign:read,ad-channel:meta:creative:read,ad-channel:meta:campaign:write,ad-channel:meta:creative:write \
-    nerdboard-meta-ads
+  codex mcp login nerdboard-meta-ads
   ```
 
-로그인할 때 사용할 너드보드 작업공간과 AI가 사용할 권한을 고르게 돼요. 아직 구독을 시작하지 않았거나 Meta 광고 계정을 연결하지 않았다면 화면 안내에 따라 먼저 준비해 주세요.
+로그인할 때 사용할 너드보드 작업공간을 고르고, AI가 사용할 전체 권한을 한 번에 승인해요. 아직 구독을 시작하지 않았거나 Meta 광고 계정을 연결하지 않았다면 화면 안내에 따라 먼저 준비해 주세요.
 
 여기까지 했다면 준비 끝이에요. 이제 원하는 광고 작업을 에이전트에게 말해 보세요.
+
+## 전체 권한 연결
+
+Meta 광고와 CRM은 같은 MCP 서버를 사용해요. 기본 로그인은 서버가 지원하는 광고·CRM·소재 전체 권한을 한 번에 요청해요. 설치 명령에 일부 권한을 고정하지 않아요. 실제 작업에는 계정·몰·구독 권한 검사가 적용돼요.
+
+기존에 일부 권한만 승인했다면 아래 명령으로 다시 로그인해요.
+
+```bash
+codex mcp logout nerdboard-meta-ads
+codex mcp login nerdboard-meta-ads
+```
+
+Claude Code는 `/mcp`에서 재인증해요. `invalid_scope` 오류가 계속되면 기존 OAuth 클라이언트 등록정보가 남아 있는 상태예요. 기존 연결 주소를 확인한 뒤 연결을 제거하고 아래 공통 설치 명령으로 재등록해요. Claude Code는 `/mcp`의 인증 초기화도 함께 진행해요.
+
+```bash
+npx -y @nerdlab-dev/meta-ads-mcp@latest install
+```
+ 기존 `nerdboard-crm` 연결이 있다면 같은 서버를 가리키는 공통 연결을 사용하고, 기존 설정을 자동 삭제하지 않아요.
 
 ## 어떻게 연결되나요?
 
@@ -138,3 +154,14 @@ OpenAI와 Codex는 OpenAI의 상표예요. Claude와 Claude Code는 Anthropic, P
 ---
 
 <p align="center"><a href="https://nerdboard.kr">Nerdboard</a>가 만들었어요.</p>
+
+## npm 설치가 실패할 때
+
+CRM도 `@nerdlab-dev/meta-ads-mcp`를 설치해요. 별도 `@nerdlab-dev/crm-mcp` 패키지는 사용하지 않아요. 공통 npm 패키지를 받을 수 없는 환경에서는 같은 공개 저장소로 설치할 수 있어요. Git이 설치되어 있어야 해요.
+
+```bash
+npx -y github:nerdlab-dev/meta-ads-mcp install --client codex
+# Claude Code를 사용하면 마지막 인자를 claude로 바꿔 주세요.
+```
+
+npm 없이 직접 연결하려면 위의 수동 설치 명령을 사용해요. 어느 방식이든 같은 서버에서 전체 권한을 한 번에 요청해요.

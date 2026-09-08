@@ -1,7 +1,7 @@
 {
   "name": "@nerdlab-dev/meta-ads-mcp",
   "version": "0.1.0",
-  "description": "Installer for Nerdboard's Meta Ads remote MCP — launch and manage Meta ads from Claude Code and Codex CLI",
+  "description": "너드보드 광고·CRM 전체 권한 MCP 공통 설치기",
   "keywords": [
     "mcp",
     "meta-ads",
