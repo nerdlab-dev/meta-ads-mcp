@@ -90,17 +90,13 @@ test("adds an unregistered Codex server", async () => {
   assert.match(result.message, /nerdboard-meta-ads/);
 });
 
-test("requests both Meta read and write scopes in the Codex login", async () => {
-  const runner = createRunner();
-
-  const result = await installMcp({ requestedClient: "codex", runner });
-
-  assert.match(result.message, /--scopes/);
-  assert.match(result.message, /ad-channel:meta:read/);
-  assert.match(result.message, /ad-channel:meta:campaign:read/);
-  assert.match(result.message, /ad-channel:meta:creative:read/);
-  assert.match(result.message, /ad-channel:meta:campaign:write/);
-  assert.match(result.message, /ad-channel:meta:creative:write/);
+test("전체 권한 기본 로그인 명령을 안내하고 일부 권한으로 제한하지 않는다", async () => {
+  for (const registrations of [{}, { codex: REMOTE_URL }]) {
+    const result = await installMcp({ requestedClient: "codex", runner: createRunner({ registrations }) });
+    assert.equal(result.ok, true);
+    assert.match(result.message, /codex mcp login nerdboard-meta-ads/);
+    assert.doesNotMatch(result.message, /--scopes/);
+  }
 });
 
 test("adds an unregistered Claude server at user scope", async () => {

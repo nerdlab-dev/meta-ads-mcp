@@ -55,14 +55,32 @@ Then sign in:
 - **Codex CLI** — run:
 
   ```bash
-  codex mcp login \
-    --scopes ad-channel:meta:read,ad-channel:meta:campaign:read,ad-channel:meta:creative:read,ad-channel:meta:campaign:write,ad-channel:meta:creative:write \
-    nerdboard-meta-ads
+  codex mcp login nerdboard-meta-ads
   ```
 
 During login you choose your Nerdboard workspace and permissions. If you still need a subscription or a connected Meta ad account, Nerdboard walks you through it on screen.
 
 That's it — ask your agent for an ad.
+
+## 전체 권한 연결
+
+이미 배포된 공통 패키지를 그대로 사용해요. 기존 버전이 출력하는 `--scopes` 포함 로그인 예시 대신, 위의 `codex mcp login nerdboard-meta-ads` 명령을 사용해요. 일부 기능으로 권한을 제한하지 않아요.
+
+Meta 광고와 CRM은 같은 MCP 서버를 사용해요. 기본 로그인은 서버가 지원하는 광고·CRM·소재 전체 권한을 한 번에 요청해요. `--scopes`로 일부 권한을 고정하지 않아요. 계정·몰·구독 권한 검사는 그대로 적용돼요.
+
+기존에 일부 권한만 승인했다면 다시 로그인해요.
+
+```bash
+codex mcp logout nerdboard-meta-ads
+codex mcp login nerdboard-meta-ads
+```
+
+Claude Code는 `/mcp`에서 재인증해요. `invalid_scope` 오류가 계속되면 기존 OAuth 클라이언트 등록정보가 남아 있는 상태예요. 기존 연결 주소를 확인한 뒤 연결을 제거하고 아래 공통 설치 명령으로 재등록해요. Claude Code는 `/mcp`의 인증 초기화도 함께 진행해요.
+
+```bash
+npx -y @nerdlab-dev/meta-ads-mcp@latest install
+```
+
 
 ## How it works
 
@@ -134,3 +152,14 @@ OpenAI and Codex are trademarks of OpenAI. Claude and Claude Code are trademarks
 ---
 
 <p align="center">Made by <a href="https://nerdboard.kr">Nerdboard</a></p>
+
+## npm 설치가 실패할 때
+
+CRM도 `@nerdlab-dev/meta-ads-mcp`를 설치해요. 별도 `@nerdlab-dev/crm-mcp` 패키지는 사용하지 않아요. 공통 npm 패키지를 받을 수 없는 환경에서는 같은 공개 저장소로 설치할 수 있어요. Git이 설치되어 있어야 해요.
+
+```bash
+npx -y github:nerdlab-dev/meta-ads-mcp install --client codex
+# Claude Code를 사용하면 마지막 인자를 claude로 바꿔 주세요.
+```
+
+npm 없이 직접 연결하려면 위의 수동 설치 명령을 사용해요. 어느 방식이든 같은 서버에서 전체 권한을 한 번에 요청해요.

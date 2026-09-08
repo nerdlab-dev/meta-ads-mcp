@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const ALLOWED_FILES = new Set([
+  "AGENTS.md",
   ".gitattributes",
   ".github/assets/demo.gif",
   ".github/assets/header.en.svg",
