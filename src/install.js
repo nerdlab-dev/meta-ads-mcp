@@ -84,7 +84,10 @@ export function installMcp({
   const current = runner(client, commands.get);
 
   if (current.status === 0) {
-    if (current.stdout.includes(REMOTE_URL)) {
+    const registeredUrls = current.stdout.split(/\r?\n/)
+      .map((line) => line.trim().match(/^(?:url:\s*)?(https?:\/\/\S+)$/i)?.[1])
+      .filter(Boolean);
+    if (registeredUrls.length === 1 && registeredUrls[0] === REMOTE_URL) {
       return {
         ok: true,
         message: `Nerdboard Meta Ads MCP is already connected to ${client}.\n${commands.login}`,
@@ -112,3 +115,4 @@ export function installMcp({
     message: `Connected Nerdboard Meta Ads MCP to ${client}.\n${commands.login}`,
   };
 }
+
