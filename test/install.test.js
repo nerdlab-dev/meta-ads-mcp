@@ -156,3 +156,30 @@ test("returns the exit code and error when the add command fails", async () => {
   assert.match(result.message, /Exit code 7/);
   assert.match(result.message, /permission denied/);
 });
+
+
+for (const client of ["codex", "claude"]) {
+  test(`${client}: accepts the complete URL field in CLI output`, () => {
+    const runner = createRunner({
+      installedClients: [client],
+      registrations: { [client]: `nerdboard-meta-ads\n  URL: ${REMOTE_URL}\n  Transport: http\n` },
+    });
+    assert.equal(installMcp({ requestedClient: client, runner }).ok, true);
+    assert.equal(runner.calls.some(([, args]) => args.includes("add")), false);
+  });
+
+  for (const url of [`${REMOTE_URL}-staging`, `${REMOTE_URL}/other`, `${REMOTE_URL}?tenant=other`, `${REMOTE_URL}#other`]) {
+    test(`${client}: does not mistake ${url} for the configured endpoint`, () => {
+      const runner = createRunner({ installedClients: [client], registrations: { [client]: `  url: ${url}\n` } });
+      const result = installMcp({ requestedClient: client, runner });
+      assert.equal(result.ok, false);
+      assert.match(result.message, /left unchanged/);
+      assert.equal(runner.calls.some(([, args]) => args.includes("add")), false);
+    });
+  }
+
+  test(`${client}: a URL mentioned in a note is not the URL field`, () => {
+    const runner = createRunner({ installedClients: [client], registrations: { [client]: `url: https://example.com/mcp\nNote: expected ${REMOTE_URL}\n` } });
+    assert.equal(installMcp({ requestedClient: client, runner }).ok, false);
+  });
+}
