@@ -37,7 +37,7 @@ const CREDENTIAL_PATTERNS = [
   /\bgithub_pat_[A-Za-z0-9_]{30,}\b/,
   /\bnpm_[A-Za-z0-9]{30,}\b/,
   /\bsk-[A-Za-z0-9_-]{20,}\b/,
-  /(?:password|passwd|client[_-]?secret|api[_-]?key)\s*[:=]\s*["']?[^\s"']{8,}/i,
+  /(?:password|passwd|client[_-]?secret|api[_-]?key)["']?\s*[:=]\s*["']?[^\s"']{8,}/i,
 ];
 
 export function inspectPublicFiles(files) {
@@ -92,3 +92,4 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   }
   process.exitCode = violations.length === 0 ? 0 : 1;
 }
+
