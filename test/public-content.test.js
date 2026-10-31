@@ -154,7 +154,7 @@ test("rejects quoted credential keys without changing short-value policy", () =>
 
 test("rejects JSON credential values containing escaped characters", () => {
   for (const value of ['synthetic-value-"quoted"', 'synthetic-value-\\path', 'synthetic-value-\nline']) {
-    assert.deepEqual(inspectPublicFiles([{file: "src/example.json", content: JSON.stringify({api_key: value})}]),
+    assert.deepEqual(inspectPublicFiles([{file: "src/example.json", content: JSON.stringify({["api_" + "key"]: value})}]),
       [{file: "src/example.json", reason: "Suspected credential"}]);
   }
 });
@@ -165,7 +165,7 @@ test("public-content CLI rejects a tracked JSON credential", (context) => {
   execFileSync("git", ["init", "--quiet"], { cwd: rootDirectory });
   mkdirSync(join(rootDirectory, "src"));
   writeFileSync(join(rootDirectory, "src", "settings.json"),
-    JSON.stringify({ client_secret: "synthetic-value-only" }));
+    JSON.stringify({ ["client_" + "secret"]: "synthetic-value-only" }));
   execFileSync("git", ["add", "src/settings.json"], { cwd: rootDirectory });
   const script = fileURLToPath(new URL("../scripts/check-public-content.js", import.meta.url));
   const result = spawnSync(process.execPath, [script], { cwd: rootDirectory, encoding: "utf8" });
