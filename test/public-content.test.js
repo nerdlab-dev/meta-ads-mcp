@@ -136,3 +136,39 @@ test("public-content CLI fails when a violation exists", (context) => {
   assert.equal(result.status, 1);
   assert.match(result.stdout, /Disallowed file path/);
 });
+
+
+test("rejects quoted credential keys without changing short-value policy", () => {
+  const keys = ["password", "passwd", "client_secret", "client-secret", "api_key", "api-key"];
+  const files = keys.flatMap((key, index) => [
+    { file: `src/json-${index}.json`, content: JSON.stringify({ [key]: "synthetic-value-only" }) },
+    { file: `src/yaml-${index}.yml`, content: `'${key}': 'synthetic-value-only'` },
+  ]);
+  assert.deepEqual(inspectPublicFiles(files), files.map(({file}) => ({file, reason: "Suspected credential"})));
+  assert.deepEqual(inspectPublicFiles([
+    {file: "src/empty.json", content: JSON.stringify({password: ""})},
+    {file: "src/short.json", content: JSON.stringify({password: "short"})},
+    {file: "src/harmless.json", content: JSON.stringify({passwordHint: "synthetic-value-only", name: "synthetic-value-only"})},
+  ]), []);
+});
+
+test("rejects JSON credential values containing escaped characters", () => {
+  for (const value of ['synthetic-value-"quoted"', 'synthetic-value-\\path', 'synthetic-value-\nline']) {
+    assert.deepEqual(inspectPublicFiles([{file: "src/example.json", content: JSON.stringify({api_key: value})}]),
+      [{file: "src/example.json", reason: "Suspected credential"}]);
+  }
+});
+
+test("public-content CLI rejects a tracked JSON credential", (context) => {
+  const rootDirectory = mkdtempSync(join(tmpdir(), "public-json-"));
+  context.after(() => rmSync(rootDirectory, { force: true, recursive: true }));
+  execFileSync("git", ["init", "--quiet"], { cwd: rootDirectory });
+  mkdirSync(join(rootDirectory, "src"));
+  writeFileSync(join(rootDirectory, "src", "settings.json"),
+    JSON.stringify({ client_secret: "synthetic-value-only" }));
+  execFileSync("git", ["add", "src/settings.json"], { cwd: rootDirectory });
+  const script = fileURLToPath(new URL("../scripts/check-public-content.js", import.meta.url));
+  const result = spawnSync(process.execPath, [script], { cwd: rootDirectory, encoding: "utf8" });
+  assert.equal(result.status, 1);
+  assert.match(result.stdout, /Suspected credential: src\/settings.json/);
+});
